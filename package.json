@@ -1,0 +1,15 @@
+{
+  "name": "persistent-react",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ben Ripkens",
+  "license": "MIT",
+  "dependencies": {
+    "mori": "^0.2.6",
+    "es6-macros": "0.0.3"
+  }
+}
