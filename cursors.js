@@ -3,12 +3,14 @@ var mori = require('mori');
 var EventEmitter = require('events').EventEmitter;
 
 function isImmutableNative(v) {
-  return typeof(v) !== 'object' || 
+  return typeof(v) !== 'object' ||
     v === null ||
     v instanceof RegExp;
 }
 
 function RootCursor(data) {
+  EventEmitter.call(this);
+
   this.get = function get(key) {
     var val = mori.get(this.val(), key);
     if (isImmutableNative(val)) {
@@ -25,10 +27,11 @@ function RootCursor(data) {
 
   this.val = function val() { return data };
 }
-RootCursor.prototype = Object.create(EventEmitter);
+RootCursor.prototype = Object.create(EventEmitter.prototype);
 
 
 function Cursor(parentCursor, path) {
+  EventEmitter.call(this);
   var that = this;
 
   this.get = function get(key) {
@@ -51,13 +54,15 @@ function Cursor(parentCursor, path) {
     return mori.get(val, path);
   };
 }
-Cursor.prototype = Object.create(EventEmitter);
+Cursor.prototype = Object.create(EventEmitter.prototype);
 
 
 function fromJs(jsObj) {
   var moriObj = mori.js_to_clj(jsObj);
   return new RootCursor(moriObj, []);
 }
+
+window.fromJs = fromJs;
 
 
 module.exports = fromJs;

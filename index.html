@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Persistent React</title>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/mori/0.2.6/mori.js"></script>
+  <script src="http://facebook.github.io/react/js/react.js"></script>
+  <script src="http://facebook.github.io/react/js/JSXTransformer.js"></script>
+  <script src="cursors.browser.js"></script>
+</head>
+<body>
+
+  <script type="text/jsx">
+    /** @jsx React.DOM */
+
+    var App = React.createClass({
+      getInitialState: function() {
+        return fromJs({
+          person: {
+            name: 'Tom Mason'
+          }
+        });
+      },
+
+      componentDidMount: function() {
+        this.state.on('change', function() {
+          this.setState(this.state);
+        }.bind(this));
+      },
+
+      render: function() {
+        return (
+          <div>
+            <Viewer person={this.state.get('person')} />
+            <Editor person={this.state.get('person')} />
+          </div>
+        );
+      }
+    });
+
+    var Viewer = React.createClass({
+      render: function() {
+        return (
+          <div>
+            <h2>Hello { this.props.person.get('name') }</h2>
+          </div>
+        );
+      }
+    });
+
+    var Editor = React.createClass({
+
+      set: function(prop) {
+        return function(event) {
+          var value = event.target.value;
+          this.props.person.set(prop, value);
+        }.bind(this);
+      },
+
+      render: function() {
+        return (
+          <div>
+            <input type="text"
+              value={ this.props.person.get('name') }
+              onChange={this.set('name')} />
+          </div>
+        );
+      }
+    });
+
+    React.renderComponent(<App />, document.body);
+  </script>
+</body>
+</html>
