@@ -1,5 +1,5 @@
 {
-  "name": "persistent-react",
+  "name": "playground",
   "version": "0.0.0",
   "description": "",
   "main": "src/",
@@ -10,6 +10,10 @@
   "license": "MIT",
   "dependencies": {
     "mori": "^0.2.6",
-    "es6-macros": "0.0.3"
+    "es6-macros": "0.0.3",
+    "jsx-reader": "git://github.com/jlongster/jsx-reader",
+    "sweet.js": "^0.7.0",
+    "envify": "^1.2.1",
+    "react": "^0.10.0"
   }
 }
